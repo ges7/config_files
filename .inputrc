@@ -1,0 +1,7 @@
+set visible-stats On
+set show-mode-in-prompt On
+set print-completions-horizontally On
+set menu-complete-display-prefix On
+set echo-control-characters (On)
+
+set colored-stats (Off)
