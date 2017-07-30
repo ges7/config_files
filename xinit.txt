@@ -1,0 +1,3 @@
+#xinit xfce4-session -- /usr/bin/Xorg vt1 -nolisten 
+xinit mate-session -- /usr/bin/Xorg vt1 -nolisten tcp
+
