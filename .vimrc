@@ -11,6 +11,9 @@ filetype on
 filetype plugin on
 filetype indent on
 
+" make find search subdirs
+set path+=**
+
 " code omni-completion
 set omnifunc=syntaxcomplete#Complete
 
@@ -134,7 +137,7 @@ highlight SpecialKey guifg=#000000 ctermfg=darkgray
 "nnoremap <leader>f zfaB
 "nnoremap <leader>d zd
 
-"disable some annoying  stuff
+"disable some annoying stuff, ex mode
 nnoremap Q <nop>
 nnoremap K <nop>
 
@@ -171,9 +174,6 @@ nnoremap <leader>h :set nolist!<cr>
 
 set title titlestring=%f 
 
-" dark
-" comment
-set background=dark
 
 " default register will be '+'
 set clipboard=unnamedplus
@@ -182,4 +182,13 @@ set clipboard=unnamedplus
 " useless when the GUI is running for some reason
 set timeoutlen=1000
 set ttimeoutlen=0
+
+" jump to the last position when reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+" open ctag in tab/vertical split
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+map <leader><C-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
