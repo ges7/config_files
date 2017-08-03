@@ -1,115 +1,146 @@
-# .bashrc
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
 
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
 
-# Use bash like Vim
+source /home/gabriel/.git-completion.bash
+
+# path modification
+PATH=$PATH:/home/gabriel/bin:/home/gabriel/bin/ssh_scripts/:/sbin
+
+# Vi mode
 set -o vi
 
-# prevent > redirections from overwriting existing files
-set -o noclobber
+# prevent overwriting with >
+set noclobber
 
 # disable 'v' to launch vim in normal mode
 bind -m vi-command -r 'v'
 
-# add java to path
-PATH=$PATH:/usr/java/jre1.7.0_05/bin
-export PATH
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
 
-# add my bin path to path
-PATH=$PATH:/home/gabriel/bin:/usr/local/bin
-export PATH
+# append to the history file, don't overwrite it
+shopt -s histappend
 
-# changes to the PythonPath
-export PYTHONPATH="/usr/local/lib/python2.7/site-packages"
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
 
-# changes to the pkg-config path
-export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig"
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=10000
+HISTFILESIZE=20000
 
-# aliases
-alias ls="ls --color=always"
-alias la="ls -a --color=always"
-alias l="ls -l --color=always"
-alias lal="ls -la --color=always"
+# enable color support of ls and also add handy aliases
+#if [ -x /usr/bin/dircolors ]; then
+    #test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    #alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    #alias grep='grep --color=auto'
+    #alias fgrep='fgrep --color=auto'
+    #alias egrep='egrep --color=auto'
+#fi
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+LANG='en_US.utf8'
+
+# some more ls aliases
+#alias ll='ls -l'
+#alias la='ls -A'
+alias k='kill -9'
+alias l='ls -CF'
+alias ls='ls -CF --color=auto'
+alias grep='grep --color=auto'
+alias vimr='vim --remote'
+alias vimrt='vim --remote-tab'
+alias j='jobs -l'
+alias f='fg'
 
 # git aliases
 alias gs="git status"
 alias gl="git log"
 alias gb="git branch -vv"
-alias gr="git remote -vv"
+alias gd="git diff"
 
-alias xlog="less .local/share/xorg/Xorg.0.log"
+parse_git_branch() {
+    #git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+    #rewrote the above regex 'in one'
+    git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/(\1)/p'
+}
 
-# disable touchpad quickly
-alias touchoff="synclient TouchPadOff=1"
-alias touchon="synclient TouchPadOff=0"
+get_time() {
+    date | sed -n -e 's/.* \([0-9]*:[0-9]*\).*/\1/p'
+}
 
-# java env
-PATH=/home/gabriel/Desktop/jre1.7.0_71/bin:$PATH
-PATH=/home/gabriel/Desktop/jdk1.7.0_71/bin:$PATH
-JAVA_HOME=/home/gabriel/Desktop/jdk1.7.0_71
-CLASSPATH=/home/gabriel/Desktop/jdk1.7.0_71
 
-# android SDK tools command line stuff paths
-PATH=/home/gabriel/Desktop/android-sdk-linux/platform-tools:$PATH
-PATH=/home/gabriel/Desktop/android-sdk-linux/tools:$PATH
-PATH=/home/gabriel/Desktop/android-sdk-linux/build-tools/21.1.0:$PATH
+#'\e[x;ym $PS1 \e[m'
+#\e[ : Start color scheme.
+#x;y : Color pair to use (x;y)
+#\e[m : Stop color scheme.
+#Black	0;30
+#Blue	0;34
+#Green	0;32
+#Cyan	0;36
+#Red	0;31
+#Purple	0;35
+#Yellow	0;33
+#Blue	0;34
+#Green	0;32
+#Cyan	0;36
+#Red	0;31
+#Purple	0;35
+#Brown	0;33
+# 0 = dark color, 1 = light color
 
-# ANT
-PATH=/home/gabriel/Desktop/apache-ant-1.9.4/bin:$PATH
+color='\e[32m\]'
+char='$'
 
-# ODOO
-PATH=/home/gabriel/Desktop/py/odoo:$PATH
-
-LANG="en_US.utf8"
-export LANG
-
-txtblk='\e[0;30m' # Black - Regular
-txtred='\e[0;31m' # Red
-txtgrn='\e[0;32m' # Green
-txtylw='\e[0;33m' # Yellow
-txtblu='\e[0;34m' # Blue
-txtpur='\e[0;35m' # Purple
-txtcyn='\e[0;36m' # Cyan
-txtwht='\e[0;37m' # White
-bldblk='\e[1;30m' # Black - Bold
-bldred='\e[1;31m' # Red
-bldgrn='\e[1;32m' # Green
-bldylw='\e[1;33m' # Yellow
-bldblu='\e[1;34m' # Blue
-bldpur='\e[1;35m' # Purple
-bldcyn='\e[1;36m' # Cyan
-bldwht='\e[1;37m' # White
-unkblk='\e[4;30m' # Black - Underline
-undred='\e[4;31m' # Red
-undgrn='\e[4;32m' # Green
-undylw='\e[4;33m' # Yellow
-undblu='\e[4;34m' # Blue
-undpur='\e[4;35m' # Purple
-undcyn='\e[4;36m' # Cyan
-undwht='\e[4;37m' # White
-bakblk='\e[40m'   # Black - Background
-bakred='\e[41m'   # Red
-bakgrn='\e[42m'   # Green
-bakylw='\e[43m'   # Yellow
-bakblu='\e[44m'   # Blue
-bakpur='\e[45m'   # Purple
-bakcyn='\e[46m'   # Cyan
-bakwht='\e[47m'   # White
-txtrst='\e[0m'    # Text Reset
-
-if [[ $UID -ne 0 ]]; then
-    color='\[\e[0;32m\]'
-    prompt='$'
-else
-    color='\[\e[0;31m\]'
-    prompt='#'
+if [ $(id -u) == 0 ]; 
+then
+    color='\e[31m\]'
+    char='#'
 fi
 
-#  prompt
-#PS1="\[\e[0;32m\] \u at \h \w \[\e[0m\]\
-PS1="$color\u at \h \w \[\e[0m\]\
-\[\e[0;36m\]\j \[\e[0m\]\
-\[\e[0;31m\]\$? \[\e[0m\]\
-\n$prompt "
+PS1="\[$color\u \w\
+ \e[0;36m\j\e[m\
+ \e[0;31m\$?\e[m\
+ \e[0;35m\$(get_time)\e[m\
+ \e[0;33m\$(parse_git_branch)\e[m\
+\n$char "
+
+
+# set title of urxvt window
+echo -ne "\e]0;${USER}@${HOSTNAME}\007"
+
+#function screen() {
+#    command script -q -c "/usr/bin/screen ${*}" /dev/null
+#}
+
+function sls() {
+   screen -ls   
+}
+
+function sx() {
+    screen -x ${*}
+}
+
+#function sls() {
+#    command screen -ls
+#}
+
+#function sx() {
+#    command screen -x ${*}
+#}
 
 function k() {
     command kill -9 ${*}
@@ -118,4 +149,7 @@ function k() {
 function jl() {
     command jobs -l
 }
+
+# make python repl read this file at startup 
+export PYTHONSTARTUP=/home/gabriel/.pythonrc
 
