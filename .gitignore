@@ -1,0 +1,10 @@
+*
+!.gitignore
+
+!.bashrc
+!.screenrc
+!.Xdefaults
+!.vimrc
+!xinit.txt
+!README.md
+
