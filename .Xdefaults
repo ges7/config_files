@@ -1,0 +1,80 @@
+!
+! Load a resource file (such as the conventional .Xresources), replacing any current settings:
+! $ xrdb ~/.Xresources
+! Load a resource file, and merge with the current settings:
+! $ xrdb -merge ~/.Xresources
+
+! Fonts
+URxvt.font:xft:Droid Sans Mono Slashed:pixelsize=16
+
+
+! kerning
+!URxvt.letterSpace: -1
+
+! window size at opening
+URxvt.geometry: 76x20
+
+URxvt*saveLines: 100000
+URxvt*scrollBar: true
+URxvt*scrollBar_right: true
+URxvt*scrollColor: #c2dd5a
+URxvt*scrollBar_floating: true
+URxvt*scrollstyle: plain
+
+! Scroll on output
+URxvt*scrollTtyOutput:      false
+URxvt*scrollWithBuffer:     true
+URxvt*scrollTtyKeypress:    true
+
+! colors
+URxvt.background: #000000
+URxvt.foreground: #afafaf
+
+! cursor
+!URxvt*cursorColor: #0000AA
+! teal
+URxvt.cursorColor2: #008080
+!URxvt.cursorUnderline: false
+
+URxvt.color3:           DarkGoldenrod
+URxvt.color4:           RoyalBlue
+URxvt.color11:          LightGoldenrod
+URxvt.color12:          LightSteelBlue
+URxvt.color7:           gray75
+URxvt.colorBD:          #ffffff
+URxvt.colorUL:          LightSlateGrey
+URxvt.colorIT:          SteelBlue
+URxvt.highlightColor:   grey25
+
+! copy paste perl script
+URxvt.perl-lib: /usr/lib/urxvt/perl/
+!URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.keysym.Control-v: perl:clipboard:paste
+URxvt.iso14755: False
+URxvt.perl-ext-common: urxvtclip
+
+! true transparency, must use a compositing wm.. ?
+!URxvt.depth: 32
+!URxvt.background: rgba:0000/0000/0000/dddd
+
+! disable this to be able to use ctrl-shift key mappings
+!URxvt.iso14755: false
+!URxvt.iso14755_52: false
+
+!URxvt.keysym.S-Up: \033[1;2A
+!URxvt.keysym.S-Down: \033[1;2B
+!URxvt.keysym.S-Right: \033[1;2C
+!URxvt.keysym.S-Left: \033[1;2D
+!URxvt.keysym.S-Home: \033[1;2H
+!URxvt.keysym.S-End: \033[1;2F
+!URxvt.keysym.C-Up: \033[1;5A
+!URxvt.keysym.C-Down: \033[1;5B
+!URxvt.keysym.C-Right: \033[1;5C
+!URxvt.keysym.C-Left: \033[1;5D
+!URxvt.keysym.C-S-Up: \033[1;6A
+!URxvt.keysym.C-S-Down: \033[1;6B
+!URxvt.keysym.C-S-Right: \033[1;6C
+!URXvt.keysym.C-S-Left: \033[1;6D
+
+URxvt.url-launcher:     /usr/bin/chromium
+
