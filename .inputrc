@@ -1,5 +1,5 @@
 set visible-stats On
-set show-mode-in-prompt On
+set show-mode-in-prompt Off
 set print-completions-horizontally On
 set menu-complete-display-prefix On
 set echo-control-characters (On)
