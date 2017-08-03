@@ -1,50 +1,104 @@
 startup_message off
-vbell off
 
-# save layout session-wise
+# make it so screen remembers regions by default
 layout save default
 
-hardstatus alwayslastline "%{=b}%{G} %{b}%w %=%{kG}%C%A %D,%d/%m/%y"
-shelltitle "Shell"
+# for mouse scrolling to work in screen
+termcapinfo xterm* ti@:te@
 
-defscrollback 5024
+term screen-256color
+defutf8 on
+vbell                 off
 
-# Window numbering starts at 1, not 0.
-#bind c screen 1
-#bind 0 select 10
-#escape ^aa
-# Look and feel
-caption always "%{= 2m}%{+b w}Screen: %n | %h %=%t %D %d/%m/%y %c:%s"
-hardstatus alwayslastline "%-Lw%{= BW}%50>%n%f* %t%{-}%+Lw%<  %=% [%{=b)%{Y}%l%{g}]"
+# An alternative hardstatus to display a bar at the bottom listing the
+# windownames and highlighting the current windowname in blue. (This is only
+# enabled if there is no hardstatus setting for your terminal)
+hardstatus on
+hardstatus alwayslastline
+#hardstatus string "%w"
+#hardstatus string "%{.kW}%-w%{.W}%n %t%{-}%{=b kw}%?%+w%?"            #B&W
+#hardstatus string "%{.kW}%-w%{.W}%n %t%{-}%{=b kw}%?%+w%? %=%c %S %d/%m/%Y" #B&W & date&time
 
-# Our warning of activity
-activity "Activity in %t(%n)"
+#backtick 2 1 1 sh -c "ip a show dev eth0 | sed -n -e 's/.*inet \([0-9.]*\)\/.*/\1/p'"
+backtick 2 30 30 hostname "--all-ip-addresses"
 
-# Left Right meta key mods
-#ALT-,. and ALT-<>
-bindkey "^[<" eval number !echo $WINDOW-1|bc
-bindkey "^[>" eval number !echo $WINDOW+1|bc
-bindkey "^[," prev
-bindkey "^[." next
+# the following two lines give a two-line status, with the current window highlighted
+hardstatus string '%{= kG}[%{G}%S%? %1`%?%{g}][%= %{= kw}%-w%{+b yk} %n*%t%?(%u)%? %{-}%+w %=%{g}][%{W}%2`%{g}][%D %m/%d%{W} %C%A%{g}]'
 
-select 1
+# huge scrollback buffer
+defscrollback 10000
 
-autodetach      on
+# no welcome message
+startup_message off
 
-# pgup pgdown
-termcapinfo xterm*|rxvt* 'ti@:te@'
+# 256 colors
+attrcolor b ".I"
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+defbce on
 
-# Having this command in your .screenrc would bind the key sequence
-# C-a R’ to the `su’ command and give it an auto-title name of `root:’.
+# From Stephen Shirley
+# Don't block command output if the terminal stops responding
+# (like if the ssh connection times out for example).
+nonblock on
 
-msgwait 15
+# Allow editors etc. to restore display on exit
+# rather than leaving existing text in place
+altscreen on
 
-# termcap stuff
-#termcapinfo xterm     ti@:te@
-# make the cursor show up in red:
-#termcapinfo linux “ve=\E[?25h\E[?17;0;64c”
+# keybindings
+# h and H overrride hardcopy and logging commands respectively
+bind h focus top
+bind ^h focus top
+bind H focus top
+bind ^H focus top
 
-bind = resize =
-bind + resize +1
-bind - resize -1
+# l and L overrride redisplay and login commands respectively
+bind l focus bottom  
+bind ^l focus bottom
+bind L focus bottom
+bind ^L focus bottom
+
+# mouse tracking allows to switch region focus by clicking
+# mousetrack on
+
+# caption description:
+# caption always "%?%F%{-b bc}%:%{-b bb}%?%C|%D|%M %d|%H%?%F%{+u wb}%? %L=%-Lw%45>%{+b by}%n%f* %t%{-}%+Lw%-0<"
+# 
+# Anything I don't describe is treated literally.
+# 
+# %?          - Start of a conditional statement.
+#  %F         - Use this part of the statement if the window has focus (i.e. it
+#               is the only window or the currently active one).
+#  %{-b bc}   - Turn off bold, blue foreground, cyan background.
+# %:          - else
+#  %{-b bb}   - Turn off bold, blue foreground, blue background (this obscures
+#               the text on non-focused windows and just gives a blue line).
+# %?          - End conditional statement.
+#  %C         - time (hh:mm, leading space) in 12 hour format
+#  %D         - Three-letter day-of-week appreviation
+#  %M         - Three-letter month appreviation
+#  %d         - Day of the month
+#  %H         - hostname
+#  %?         - Start of conditional statement.
+#   %F        - Use this part of the statement if the window has focus.
+#   %{+u wb}  - underlined, white foreground, blue background
+#  %?         - End conditional (if not focused, text remaind blue on blue).
+#    %L=      - truncation/padding point.  With the 'L' qualifier, basically
+#               just acts as a reference point.  Further truncation/padding is
+#               done relative to here, not the beginning of the string
+#    %-Lw     - window list up to but not including the current window (-),
+#               show window flags (L)
+#    %45>     - truncation/padding marker; place this point about 45% of the
+#               way into the display area (45)
+#    %{+b by} - add bold (still underlined from before), blue foreground,
+#               yellow background
+#      %n     - number of the current window
+#      %f     - flags for current window
+#      %t     - title of current window
+#    %{-}     - undo last color change (so now we're back to underlined white
+#               on blue)  (technically, this is a pop; a second invocation
+#               would drop things back to unadorned blue on cyan)
+#    %+Lw     - window list from the next window on (-), show window flags (L)
+#    %-0<     - truncation/padding point.  Place this point zero spaces (0)
+#               from the right margin (-).
 
