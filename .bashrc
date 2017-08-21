@@ -75,13 +75,22 @@ alias gd="git diff"
 parse_git_branch() {
     #git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
     #rewrote the above regex 'in one'
-    git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/(\1)/p'
+    git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/\1/p'
 }
 
 get_time() {
     date | sed -n -e 's/.* \([0-9]*:[0-9]*\).*/\1/p'
 }
 
+get_git_remote() {
+    #if git rev-parse --git-dir > /dev/null 2>&1; then
+    if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+        # full url of remote
+        # git remote -v | awk -F '\t| ' {'print $2'} | sed -n '2p'
+        # only stuff after last '/'
+        git remote -v | awk -F '\t| ' {'print $2'} | sed -n '2p' | sed -n 's@^.*/\(.*\).*@\1@p'
+    fi
+}
 
 #'\e[x;ym $PS1 \e[m'
 #\e[ : Start color scheme.
@@ -105,19 +114,19 @@ get_time() {
 color='\e[32m\]'
 char='$'
 
-if [ $(id -u) == 0 ]; 
+if [ $(id -u) == 0 ];
 then
     color='\e[31m\]'
     char='#'
 fi
 
 PS1="\[$color\u \w\
- \e[0;36m\j\e[m\
- \e[0;31m\$?\e[m\
- \e[0;35m\$(get_time)\e[m\
- \e[0;33m\$(parse_git_branch)\e[m\
+ \e[36m\j\e[m\
+ \e[31m\$?\e[m\
+ \e[35m\$(get_time)\e[m\
+ \e[33m(\$(parse_git_branch))\e[m\
+ \e[33m(\$(get_git_remote))\e[m\
 \n$char "
-
 
 # set title of urxvt window
 echo -ne "\e]0;${USER}@${HOSTNAME}\007"
@@ -127,20 +136,14 @@ echo -ne "\e]0;${USER}@${HOSTNAME}\007"
 #}
 
 function sls() {
-   screen -ls   
+    screen -ls
+    # command screen -ls
 }
 
 function sx() {
     screen -x ${*}
+    # command screen -x ${*}
 }
-
-#function sls() {
-#    command screen -ls
-#}
-
-#function sx() {
-#    command screen -x ${*}
-#}
 
 function k() {
     command kill -9 ${*}
@@ -150,6 +153,6 @@ function jl() {
     command jobs -l
 }
 
-# make python repl read this file at startup 
+# make python repl read this file at startup
 export PYTHONSTARTUP=/home/gabriel/.pythonrc
 

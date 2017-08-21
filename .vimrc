@@ -361,3 +361,5 @@ autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 
 nnoremap <leader>g :silent grep! -Rn<space>
 
+nnoremap <leader>c :silent! !ctags -R -f ./.tags<cr>
+

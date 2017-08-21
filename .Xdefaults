@@ -12,7 +12,7 @@ URxvt.font:xft:Droid Sans Mono Slashed:pixelsize=16
 !URxvt.letterSpace: -1
 
 ! window size at opening
-URxvt.geometry: 76x20
+URxvt.geometry: 76x22
 
 URxvt*saveLines: 100000
 URxvt*scrollBar: true
