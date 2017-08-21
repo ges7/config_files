@@ -7,34 +7,34 @@ set bs=2
 " root uses this vimrc too
 if $USER != 'root'
 
-    filetype off  " required by Vundle
+    "filetype off  " required by Vundle
 
     " set the runtime path to include Vundle and initialize
-    set rtp+=~/.vim/bundle/Vundle.vim
-    call vundle#begin()
+    "set rtp+=~/.vim/bundle/Vundle.vim
+    "call vundle#begin()
     " alternatively, pass a path where Vundle should install plugins
     "call vundle#begin('~/some/path/here')
 
     " let Vundle manage Vundle, required
-    Plugin 'VundleVim/Vundle.vim'
+    "Plugin 'VundleVim/Vundle.vim'
 
     " The following are examples of different formats supported.
     " Keep Plugin commands between vundle#begin/end.
     " plugin on GitHub repo
     "Plugin 'tpope/vim-fugitive'
-    Plugin 'scrooloose/nerdtree'
+    "Plugin 'scrooloose/nerdtree'
 
     " Conque-Shell
     " https://github.com/vim-scripts/Conque-Shell.git
-    Plugin 'vim-scripts/Conque-Shell'
+    " Plugin 'vim-scripts/Conque-Shell'
 
     " Indent Guides
     " https://github.com/nathanaelkane/vim-indent-guides.git
-    Plugin 'nathanaelkane/vim-indent-guides'
+    " Plugin 'nathanaelkane/vim-indent-guides'
 
     " All of your Plugins must be added before the following line
-    call vundle#end()            " required
-    filetype plugin indent on    " required
+    " call vundle#end()            " required
+    " filetype plugin indent on    " required
     " To ignore plugin indent changes, instead use:
     "filetype plugin on
     "
@@ -47,7 +47,7 @@ if $USER != 'root'
     " Put your non-Plugin stuff after this line
 
     "NerdTree toggle
-    map <C-n> :NERDTreeToggle<CR>
+    "map <C-n> :NERDTreeToggle<CR>
 
 endif " end of root user condition
 
@@ -60,6 +60,7 @@ endif " end of root user condition
 "see 'help matchparen'
 "let loaded_matchparen = 1
 
+" enable internal vim plugins
 filetype plugin on
 filetype indent on
 
